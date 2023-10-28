@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shareex/provider/auth_provider.dart';
+import 'package:shareex/screens/home_screen.dart';
 import 'package:shareex/screens/registration_screen.dart';
 import 'package:shareex/widgets/custom_button.dart';
 
@@ -12,6 +15,7 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen>{
   @override
   Widget build(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -47,6 +51,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>{
                   height: 50,
                   child: CustomButton(text: "Get Started", 
                   onPressed: (){
+                    ap.isSignedIn == true ? Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomeScreen())):
                     Navigator.push(
                       context,
                       MaterialPageRoute(

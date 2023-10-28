@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:shareex/provider/auth_provider.dart';
 import 'package:shareex/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
@@ -11,8 +12,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-
-final TextEditingController phoneController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   Country selectedCountry = Country(
     phoneCode: "94",
@@ -29,7 +29,7 @@ final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -39,13 +39,9 @@ final TextEditingController phoneController = TextEditingController();
                 Container(
                   width: 200,
                   height: 200,
-                  decoration:BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.purple.shade100
-                  ) ,
-                  child: Image.asset(
-                    "assets/image2.png"
-                  ),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.purple.shade100),
+                  child: Image.asset("assets/image2.png"),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -62,7 +58,7 @@ final TextEditingController phoneController = TextEditingController();
                     fontSize: 14,
                     color: Colors.black38,
                     fontWeight: FontWeight.bold,
-                  ), 
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
@@ -141,7 +137,7 @@ final TextEditingController phoneController = TextEditingController();
                   width: double.infinity,
                   height: 50,
                   child: CustomButton(
-                      text: "Login", onPressed: () => {}),
+                      text: "Login", onPressed: () => sendPhoneNumber()),
                 ),
               ],
             ),
@@ -149,8 +145,11 @@ final TextEditingController phoneController = TextEditingController();
         ),
       ),
     );
-  } 
+  }
 
-  
-
+  void sendPhoneNumber() {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    String phoneNumber = phoneController.text.trim();
+    ap.signInWIthPhone(context, "+${selectedCountry.phoneCode}$phoneNumber");
+  }
 }
