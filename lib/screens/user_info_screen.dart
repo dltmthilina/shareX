@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shareex/model/user_model.dart';
+import 'package:shareex/provider/auth_provider.dart';
+import 'package:shareex/utils/utils.dart';
 import 'dart:io';
 
 import 'package:shareex/widgets/custom_button.dart';
@@ -20,6 +24,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     super.dispose();
     nameController.dispose();
     homeTownController.dispose();
+  }
+
+  void selectImage() async {
+    image = await pickImage(context);
+    setState(() {});
   }
 
   @override
@@ -77,7 +86,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   SizedBox(
                     height: 50,
                     width: MediaQuery.of(context).size.width * 0.80,
-                    child: CustomButton(text: "Continue", onPressed: () {}),
+                    child: CustomButton(
+                        text: "Continue", onPressed: () => storeData()),
                   )
                 ],
               ),
@@ -135,5 +145,21 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         ),
       ),
     );
+  }
+
+  void storeData() async {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    UserModel userModel = UserModel(
+        name: nameController.text.trim(),
+        homeTown: homeTownController.text.trim(),
+        profilePic: "",
+        createdAt: "",
+        phoneNUmber: "",
+        uid: "");
+
+    if (image != null) {
+    } else {
+      showSnackBar(context, "Please upload your profile photo");
+    }
   }
 }
