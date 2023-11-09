@@ -1,10 +1,10 @@
 class UserModel {
-  final String name;
-  final String homeTown;
-  final String profilePic;
-  final String createdAt;
-  final String phoneNUmber;
-  final String uid;
+  String name;
+  String homeTown;
+  String profilePic;
+  String createdAt;
+  String phoneNUmber;
+  String uid;
 
   UserModel(
       {required this.name,
@@ -22,5 +22,15 @@ class UserModel {
         createdAt: map['createdAt'] ?? '',
         phoneNUmber: map['phoneNUmber'] ?? '',
         uid: map['uid'] ?? '');
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "name": name,
+      "homeTown": homeTown,
+      "profilePic": profilePic,
+      "phoneNumber": phoneNUmber,
+      "createdAt": createdAt,
+    };
   }
 }
