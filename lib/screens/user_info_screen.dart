@@ -46,61 +46,59 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               )
             : SingleChildScrollView(
                 child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 25.0, horizontal: 5.0),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        InkWell(
-                          onTap: () => selectImage(),
-                          child: image == null
-                              ? const CircleAvatar(
-                                  backgroundColor: Colors.purple,
-                                  radius: 50,
-                                  child: Icon(
-                                    Icons.account_circle,
-                                    size: 50,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : CircleAvatar(
-                                  backgroundImage: FileImage(image!),
-                                  radius: 50,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 25.0, horizontal: 5.0),
+                  child: Column(
+                    children: [
+                      InkWell(
+                        onTap: () => selectImage(),
+                        child: image == null
+                            ? const CircleAvatar(
+                                backgroundColor: Colors.purple,
+                                radius: 50,
+                                child: Icon(
+                                  Icons.account_circle,
+                                  size: 50,
+                                  color: Colors.white,
                                 ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 15),
-                          margin: const EdgeInsets.only(top: 20),
-                          child: Column(
-                            children: [
-                              textFeld(
-                                hintText: "John Smith",
-                                icon: Icons.account_circle,
-                                inputType: TextInputType.name,
-                                maxLines: 1,
-                                controller: nameController,
+                              )
+                            : CircleAvatar(
+                                backgroundImage: FileImage(image!),
+                                radius: 50,
                               ),
-                              textFeld(
-                                hintText: "Enter your home town",
-                                icon: Icons.edit,
-                                inputType: TextInputType.name,
-                                maxLines: 2,
-                                controller: homeTownController,
-                              ),
-                            ],
-                          ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 15),
+                        margin: const EdgeInsets.only(top: 20),
+                        child: Column(
+                          children: [
+                            textFeld(
+                              hintText: "John Smith",
+                              icon: Icons.account_circle,
+                              inputType: TextInputType.name,
+                              maxLines: 1,
+                              controller: nameController,
+                            ),
+                            textFeld(
+                              hintText: "Enter your home town",
+                              icon: Icons.edit,
+                              inputType: TextInputType.name,
+                              maxLines: 2,
+                              controller: homeTownController,
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width * 0.80,
-                          child: CustomButton(
-                              text: "Continue", onPressed: () => storeData()),
-                        )
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width * 0.80,
+                        child: CustomButton(
+                            text: "Continue", onPressed: () => storeData()),
+                      )
+                    ],
                   ),
                 ),
               ),
