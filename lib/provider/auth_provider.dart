@@ -130,6 +130,7 @@ class AuthProvider extends ChangeNotifier {
         notifyListeners();
       });
     } on FirebaseAuthException catch (e) {
+      // ignore: use_build_context_synchronously
       showSnackBar(context, e.message.toString());
       _isLoading = false;
       notifyListeners();
@@ -146,5 +147,13 @@ class AuthProvider extends ChangeNotifier {
   Future saveUserDataToSP() async {
     SharedPreferences s = await SharedPreferences.getInstance();
     await s.setString("user_model", jsonEncode(userModel.toMap()));
+  }
+
+  Future getDataFromSP() async {
+    SharedPreferences s = await SharedPreferences.getInstance();
+    String data = s.getString("user_model") ?? '';
+    _userModel = UserModel.fromMap(jsonDecode(data));
+    _uid = _userModel!.uid;
+    notifyListeners();
   }
 }

@@ -12,7 +12,7 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen>{
+class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
@@ -25,8 +25,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>{
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset("assets/image1.png",
-                height: 400 ,
+                Image.asset(
+                  "assets/image1.png",
+                  height: 400,
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -49,26 +50,33 @@ class _WelcomeScreenState extends State<WelcomeScreen>{
                 SizedBox(
                   width: double.infinity,
                   height: 50,
-                  child: CustomButton(text: "Get Started", 
-                  onPressed: (){
-                    ap.isSignedIn == true ? Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomeScreen())):
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context)=>const RegistrationScreen()
-                        ),
-                     );
-                  }
-                  ),
+                  child: CustomButton(
+                      text: "Get Started",
+                      onPressed: () async {
+                        if (ap.isSignedIn == true) {
+                          await ap.getDataFromSP().whenComplete(
+                                () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const HomeScreen(),
+                                  ),
+                                ),
+                              );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const RegistrationScreen()),
+                          );
+                        }
+                      }),
                 )
               ],
             ),
           ),
-        )
         ),
+      ),
     );
   }
- 
-
 }
-
