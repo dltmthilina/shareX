@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shareex/provider/auth_provider.dart';
+import 'package:shareex/screens/review_screen.dart';
+import 'package:shareex/utils/utils.dart';
+import 'package:shareex/widgets/custom_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Positioned(
             top: 0,
             left: 0,
+            width: MediaQuery.of(context).size.width,
             child: Padding(
               padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
               child: Column(
@@ -49,15 +53,42 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.purple,
-                        backgroundImage: NetworkImage(ap.userModel.profilePic),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.purple,
+                            backgroundImage:
+                                NetworkImage(ap.userModel.profilePic),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            capitalizeAllWord(ap.userModel.name),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
                       ),
-                      Text(ap.userModel.name),
-                      Text(ap.userModel.homeTown)
+                      Text(
+                        capitalizeAllWord(ap.userModel.homeTown),
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w500),
+                      ),
                     ],
                   ),
+                  const SizedBox(height: 20),
+                  CustomButton(
+                      text: "Create Review",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ReviewScreen(),
+                          ),
+                        );
+                      })
                 ],
               ),
             )),
