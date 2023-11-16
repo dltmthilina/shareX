@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:shareex/provider/auth_provider.dart';
 import 'package:shareex/utils/utils.dart';
+import 'package:shareex/widgets/filled_dropdown.dart';
+import 'package:shareex/widgets/rating_builder.dart';
 
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({super.key});
@@ -40,7 +43,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 children: [
                   const SizedBox(height: 20),
                   Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.topCenter,
                     child: GestureDetector(
                       onTap: () => {},
                       child: const Icon(
@@ -76,7 +79,99 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 40),
+                  Container(
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.black)),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        FilledDropdownMenu(
+                          hintText: 'Category',
+                          menuHeight: 100,
+                          menuBackgroundColor: Color(0xFF8F6DCB),
+                          buttonHeight: 40,
+                          buttonBackgroundColor:
+                              Color.fromARGB(255, 158, 121, 221),
+                          menuWidth: 100,
+                        ),
+                        FilledDropdownMenu(
+                          hintText: 'Category',
+                          menuHeight: 100,
+                          menuBackgroundColor: Color(0xFF8F6DCB),
+                          buttonHeight: 40,
+                          buttonBackgroundColor:
+                              Color.fromARGB(255, 158, 121, 221),
+                          menuWidth: 100,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 198, 177, 235),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(blurRadius: 5),
+                      ],
+                    ),
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    child: const Column(
+                      children: [
+                        TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "Enter your message",
+                            filled: true,
+                          ),
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                        ),
+                        const SizedBox(height: 40),
+                        Column(
+                          children: [
+                            Text(
+                              "Customer Service",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF7E57C2)),
+                            ),
+                            SizedBox(height: 10),
+                            RatingBuilder()
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Column(
+                          children: [
+                            Text(
+                              "Pricing",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF7E57C2)),
+                            ),
+                            SizedBox(height: 10),
+                            RatingBuilder()
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Column(
+                          children: [
+                            Text(
+                              "Product Quality",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF7E57C2)),
+                            ),
+                            SizedBox(height: 10),
+                            RatingBuilder()
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             )),
