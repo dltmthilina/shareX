@@ -108,17 +108,21 @@ class AuthProvider extends ChangeNotifier {
   void saveUserDataToFirebase({
     required BuildContext context,
     required UserModel userModel,
-    required File profilePic,
+    File? profilePic,
     required Function onSuccess,
   }) async {
     _isLoading = true;
     notifyListeners();
+
     try {
-      await storeFileToStorage("profilePic/$_uid", profilePic).then((value) {
-        userModel.profilePic = value;
-        userModel.createdAt = DateTime.now().millisecondsSinceEpoch.toString();
-        userModel.uid = _firebaseAuth.currentUser!.phoneNumber!;
-      });
+      if (profilePic != null) {
+        await storeFileToStorage("profilePic/$_uid", profilePic).then((value) {
+          userModel.profilePic = value;
+        });
+      }
+      userModel.createdAt = DateTime.now().millisecondsSinceEpoch.toString();
+      userModel.uid = _firebaseAuth.currentUser!.phoneNumber!;
+
       _userModel = userModel;
       await _firebaseFirestore
           .collection("users")

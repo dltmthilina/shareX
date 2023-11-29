@@ -1,7 +1,7 @@
 class UserModel {
   String name;
   String homeTown;
-  String profilePic;
+  String? profilePic;
   String createdAt;
   String phoneNUmber;
   String uid;
@@ -9,7 +9,7 @@ class UserModel {
   UserModel(
       {required this.name,
       required this.homeTown,
-      required this.profilePic,
+      this.profilePic,
       required this.createdAt,
       required this.phoneNUmber,
       required this.uid});

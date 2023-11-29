@@ -164,24 +164,19 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         createdAt: "",
         phoneNUmber: "",
         uid: "");
-
-    if (image != null) {
-      ap.saveUserDataToFirebase(
-          context: context,
-          userModel: userModel,
-          profilePic: image!,
-          onSuccess: () {
-            ap.saveUserDataToSP().then(
-                  (value) => ap.setSignIn().then((value) =>
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeScreen()),
-                          (route) => false)),
-                );
-          });
-    } else {
-      showSnackBar(context, "Please upload your profile photo");
-    }
+    ap.saveUserDataToFirebase(
+        context: context,
+        userModel: userModel,
+        profilePic: image,
+        onSuccess: () {
+          ap.saveUserDataToSP().then(
+                (value) => ap.setSignIn().then((value) =>
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()),
+                        (route) => false)),
+              );
+        });
   }
 }

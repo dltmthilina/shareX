@@ -60,7 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           CircleAvatar(
                             backgroundColor: Colors.purple,
                             backgroundImage:
-                                NetworkImage(ap.userModel.profilePic),
+                                // ignore: prefer_if_null_operators
+                                NetworkImage(ap.userModel.profilePic ?? ''),
                           ),
                           const SizedBox(width: 10),
                           Text(
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ReviewScreen(),
+                            builder: (context) => ReviewScreen(),
                           ),
                         );
                       })

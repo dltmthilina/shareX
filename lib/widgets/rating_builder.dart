@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class RatingBuilder extends StatelessWidget {
-  const RatingBuilder({super.key});
+class RatingBuilder extends StatefulWidget {
+  const RatingBuilder({Key? key}) : super(key: key);
+
+  @override
+  _RatingBuilderState createState() => _RatingBuilderState();
+}
+
+class _RatingBuilderState extends State<RatingBuilder> {
+  late double _ratingValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _ratingValue = 1.0; // Set the initial rating value
+  }
 
   @override
   Widget build(BuildContext context) {
     return RatingBar(
-      initialRating: 1,
+      initialRating: _ratingValue,
       direction: Axis.horizontal,
       allowHalfRating: true,
       itemCount: 5,
@@ -27,8 +40,17 @@ class RatingBuilder extends StatelessWidget {
       ),
       itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
       onRatingUpdate: (rating) {
-        print(rating);
+        setState(() {
+          _ratingValue = rating;
+        });
+        print(
+            _ratingValue); // You can also use the rating value here or pass it to a callback
       },
     );
+  }
+
+  // Add this method to get the current rating value
+  double getRatingValue() {
+    return _ratingValue;
   }
 }

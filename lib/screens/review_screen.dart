@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:shareex/provider/auth_provider.dart';
 import 'package:shareex/utils/utils.dart';
+import 'package:shareex/widgets/custom_button.dart';
 import 'package:shareex/widgets/filled_dropdown.dart';
 import 'package:shareex/widgets/rating_builder.dart';
 
@@ -14,6 +15,14 @@ class ReviewScreen extends StatefulWidget {
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController cServiceController = TextEditingController();
+  final TextEditingController priceingController = TextEditingController();
+  final TextEditingController productQualityController =
+      TextEditingController();
+
+  RatingBuilder ratingBuilder = const RatingBuilder();
+
   @override
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
@@ -34,147 +43,160 @@ class _ReviewScreenState extends State<ReviewScreen> {
           ),
         ),
         Positioned(
-            top: 0,
-            left: 0,
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: const Icon(
-                        Icons.arrow_back_rounded,
-                        color: Colors.white,
-                        size: 40,
-                      ),
+          top: 0,
+          left: 0,
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: GestureDetector(
+                    onTap: () => {},
+                    child: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: Colors.white,
+                      size: 40,
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.purple,
+                          backgroundImage:
+                              NetworkImage(ap.userModel.profilePic ?? ''),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          capitalizeAllWord(ap.userModel.name),
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      capitalizeAllWord(ap.userModel.homeTown),
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 40),
+                Container(
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.purple,
-                            backgroundImage:
-                                NetworkImage(ap.userModel.profilePic),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            capitalizeAllWord(ap.userModel.name),
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
+                      FilledDropdownMenu(
+                        hintText: 'Category',
+                        menuHeight: 100,
+                        menuBackgroundColor: Color(0xFF8F6DCB),
+                        buttonHeight: 40,
+                        buttonBackgroundColor:
+                            Color.fromARGB(255, 158, 121, 221),
+                        menuWidth: 100,
                       ),
-                      Text(
-                        capitalizeAllWord(ap.userModel.homeTown),
-                        style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w500),
+                      FilledDropdownMenu(
+                        hintText: 'Category',
+                        menuHeight: 100,
+                        menuBackgroundColor: Color(0xFF8F6DCB),
+                        buttonHeight: 40,
+                        buttonBackgroundColor:
+                            Color.fromARGB(255, 158, 121, 221),
+                        menuWidth: 100,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 40),
-                  Container(
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.black)),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        FilledDropdownMenu(
-                          hintText: 'Category',
-                          menuHeight: 100,
-                          menuBackgroundColor: Color(0xFF8F6DCB),
-                          buttonHeight: 40,
-                          buttonBackgroundColor:
-                              Color.fromARGB(255, 158, 121, 221),
-                          menuWidth: 100,
+                ),
+                const SizedBox(height: 40),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 198, 177, 235),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(blurRadius: 5),
+                          ],
                         ),
-                        FilledDropdownMenu(
-                          hintText: 'Category',
-                          menuHeight: 100,
-                          menuBackgroundColor: Color(0xFF8F6DCB),
-                          buttonHeight: 40,
-                          buttonBackgroundColor:
-                              Color.fromARGB(255, 158, 121, 221),
-                          menuWidth: 100,
+                        margin: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: descriptionController,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: "Enter your message",
+                                filled: true,
+                              ),
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                            ),
+                            const SizedBox(height: 40),
+                            const Column(
+                              children: [
+                                Text(
+                                  "Customer Service",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF7E57C2)),
+                                ),
+                                SizedBox(height: 10),
+                                RatingBuilder()
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            const Column(
+                              children: [
+                                Text(
+                                  "Pricing",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF7E57C2)),
+                                ),
+                                SizedBox(height: 10),
+                                RatingBuilder()
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            Column(
+                              children: [
+                                Text(
+                                  "Product Quality",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF7E57C2)),
+                                ),
+                                SizedBox(height: 10),
+                                RatingBuilder()
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: CustomButton(text: "Save", onPressed: () {}),
+                      )
+                    ],
                   ),
-                  const SizedBox(height: 40),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 198, 177, 235),
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(blurRadius: 5),
-                      ],
-                    ),
-                    margin: const EdgeInsets.all(5),
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                    child: const Column(
-                      children: [
-                        TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: "Enter your message",
-                            filled: true,
-                          ),
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                        ),
-                        const SizedBox(height: 40),
-                        Column(
-                          children: [
-                            Text(
-                              "Customer Service",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF7E57C2)),
-                            ),
-                            SizedBox(height: 10),
-                            RatingBuilder()
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Column(
-                          children: [
-                            Text(
-                              "Pricing",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF7E57C2)),
-                            ),
-                            SizedBox(height: 10),
-                            RatingBuilder()
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Column(
-                          children: [
-                            Text(
-                              "Product Quality",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF7E57C2)),
-                            ),
-                            SizedBox(height: 10),
-                            RatingBuilder()
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )),
+                ),
+              ],
+            ),
+          ),
+        ),
       ]),
     );
   }
