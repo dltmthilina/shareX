@@ -5,14 +5,17 @@ class UserModel {
   String createdAt;
   String phoneNUmber;
   String uid;
+  String role;
 
-  UserModel(
-      {required this.name,
-      required this.homeTown,
-      this.profilePic,
-      required this.createdAt,
-      required this.phoneNUmber,
-      required this.uid});
+  UserModel({
+    required this.name,
+    required this.homeTown,
+    this.profilePic,
+    required this.createdAt,
+    required this.phoneNUmber,
+    required this.uid,
+    this.role = "user",
+  });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
@@ -21,7 +24,8 @@ class UserModel {
         profilePic: map['profilePic'] ?? '',
         createdAt: map['createdAt'] ?? '',
         phoneNUmber: map['phoneNUmber'] ?? '',
-        uid: map['uid'] ?? '');
+        uid: map['uid'] ?? '',
+        role: "user");
   }
 
   Map<String, dynamic> toMap() {
@@ -31,6 +35,7 @@ class UserModel {
       "profilePic": profilePic,
       "phoneNumber": phoneNUmber,
       "createdAt": createdAt,
+      "role": role,
     };
   }
 }
