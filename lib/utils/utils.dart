@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:shareex/provider/auth_provider.dart';
+import 'package:shareex/screens/welcome_screen.dart';
 
 void showSnackBar(BuildContext context, String content) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -35,4 +38,14 @@ String capitalizeAllWord(String value) {
     }
   }
   return result;
+}
+
+void logout(BuildContext context) {
+  final ap = Provider.of<AuthProvider>(context, listen: false);
+  ap.clearUserData();
+  ap.isSignedIn == false;
+  Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+      (route) => false);
 }

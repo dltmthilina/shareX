@@ -41,17 +41,29 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: const Icon(
-                        Icons.menu_outlined,
-                        color: Colors.white,
-                        size: 40,
+                  Row(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: GestureDetector(
+                          onTap: () => {},
+                          child: const Icon(
+                            Icons.menu_outlined,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        ),
                       ),
-                    ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: TextButton(
+                          child: const Text("Logout"),
+                          onPressed: () => logout(context),
+                        ),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

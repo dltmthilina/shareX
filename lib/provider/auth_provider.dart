@@ -160,4 +160,9 @@ class AuthProvider extends ChangeNotifier {
     _uid = _userModel!.uid;
     notifyListeners();
   }
+
+  Future clearUserData() async {
+    SharedPreferences s = await SharedPreferences.getInstance();
+    await s.clear();
+  }
 }
