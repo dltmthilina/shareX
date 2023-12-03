@@ -11,6 +11,8 @@ import 'package:shareex/screens/otp_screen.dart';
 import 'package:shareex/utils/utils.dart';
 
 class AuthProvider extends ChangeNotifier {
+  late String _phoneNumber;
+  String get contactNumber => _phoneNumber;
   bool _isSignedIn = false;
   bool get isSignedIn => _isSignedIn;
   bool _isLoading = false;
@@ -28,6 +30,11 @@ class AuthProvider extends ChangeNotifier {
     checkSign();
   }
 
+  set contactNumber(String phoneNumber) {
+    _phoneNumber = phoneNumber;
+    notifyListeners();
+  }
+
   void checkSign() async {
     final SharedPreferences s = await SharedPreferences.getInstance();
     _isSignedIn = s.getBool("is_signedin") ?? false;
@@ -43,6 +50,7 @@ class AuthProvider extends ChangeNotifier {
 
   void signInWIthPhone(BuildContext context, String phoneNUmber) async {
     try {
+      contactNumber = phoneNUmber;
       await _firebaseAuth.verifyPhoneNumber(
           phoneNumber: phoneNUmber,
           verificationCompleted:
@@ -146,6 +154,24 @@ class AuthProvider extends ChangeNotifier {
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;
+  }
+
+  Future getDataFromFirestore() async {
+    await _firebaseFirestore
+        .collection("users")
+        .doc(_firebaseAuth.currentUser!.uid)
+        .get()
+        .then((DocumentSnapshot snapshot) {
+      _userModel = UserModel(
+        name: snapshot['name'],
+        createdAt: snapshot['createdAt'],
+        homeTown: snapshot['homeTown'],
+        uid: snapshot['uid'],
+        profilePic: snapshot['profilePic'],
+        phoneNUmber: snapshot['phoneNUmber'],
+      );
+      _uid = userModel.uid;
+    });
   }
 
   Future saveUserDataToSP() async {
