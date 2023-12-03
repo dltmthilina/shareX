@@ -2,13 +2,14 @@
 import 'dart:convert';
 
 class ReviewModel {
-  String homeTown;
-  String category;
-  String center;
-  String description;
-  String custService;
-  String pricing;
-  String pQuality;
+  String? homeTown;
+  String? category;
+  String? center;
+  String? description;
+  double custService;
+  double pricing;
+  double pQuality;
+  String uid;
 
   ReviewModel({
     required this.homeTown,
@@ -18,6 +19,7 @@ class ReviewModel {
     required this.custService,
     required this.pricing,
     required this.pQuality,
+    required this.uid,
   });
 
   ReviewModel copyWith({
@@ -25,9 +27,10 @@ class ReviewModel {
     String? category,
     String? center,
     String? description,
-    String? custService,
-    String? pricing,
-    String? pQuality,
+    double? custService,
+    double? pricing,
+    double? pQuality,
+    String? uid,
   }) {
     return ReviewModel(
       homeTown: homeTown ?? this.homeTown,
@@ -37,6 +40,7 @@ class ReviewModel {
       custService: custService ?? this.custService,
       pricing: pricing ?? this.pricing,
       pQuality: pQuality ?? this.pQuality,
+      uid: '',
     );
   }
 
@@ -49,6 +53,7 @@ class ReviewModel {
       'custService': custService,
       'pricing': pricing,
       'pQuality': pQuality,
+      'uid': uid,
     };
   }
 
@@ -58,9 +63,10 @@ class ReviewModel {
       category: map['category'] as String,
       center: map['center'] as String,
       description: map['description'] as String,
-      custService: map['custService'] as String,
-      pricing: map['pricing'] as String,
-      pQuality: map['pQuality'] as String,
+      custService: map['custService'] as double,
+      pricing: map['pricing'] as double,
+      pQuality: map['pQuality'] as double,
+      uid: map['uid'] as String,
     );
   }
 
