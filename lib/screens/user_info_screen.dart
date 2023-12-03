@@ -162,7 +162,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         homeTown: homeTownController.text.trim(),
         profilePic: "",
         createdAt: "",
-        phoneNUmber: "",
+        phoneNUmber: ap.contactNumber,
         uid: "");
     ap.saveUserDataToFirebase(
         context: context,
