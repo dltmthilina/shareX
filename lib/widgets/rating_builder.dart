@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RatingBuilder extends StatefulWidget {
-  const RatingBuilder({Key? key}) : super(key: key);
+  const RatingBuilder({Key? key, required this.onRatingChanged})
+      : super(key: key);
+
+  final ValueChanged<double> onRatingChanged;
 
   @override
   _RatingBuilderState createState() => _RatingBuilderState();
@@ -43,6 +46,7 @@ class _RatingBuilderState extends State<RatingBuilder> {
         setState(() {
           _ratingValue = rating;
         });
+        widget.onRatingChanged(rating);
         print(
             _ratingValue); // You can also use the rating value here or pass it to a callback
       },
