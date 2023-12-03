@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:shareex/model/review_model.dart';
 import 'package:shareex/provider/auth_provider.dart';
+import 'package:shareex/screens/home_screen.dart';
 import 'package:shareex/utils/utils.dart';
 import 'package:shareex/widgets/custom_button.dart';
 import 'package:shareex/widgets/filled_dropdown.dart';
@@ -16,12 +19,11 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController cServiceController = TextEditingController();
-  final TextEditingController priceingController = TextEditingController();
-  final TextEditingController productQualityController =
-      TextEditingController();
-
-  RatingBuilder ratingBuilder = const RatingBuilder();
+  late String? serviceCenterName;
+  late String? serviceCategory;
+  late double customerService;
+  late double pricing;
+  late double productQuality;
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +54,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
               children: [
                 const SizedBox(height: 20),
                 Align(
-                  alignment: Alignment.topCenter,
+                  alignment: Alignment.topLeft,
                   child: GestureDetector(
-                    onTap: () => {},
+                    onTap: () => {
+                      Navigator.pop(context),
+                    },
                     child: const Icon(
                       Icons.arrow_back_rounded,
                       color: Colors.white,
-                      size: 40,
+                      size: 30,
                     ),
                   ),
                 ),
@@ -87,28 +91,53 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 70),
                 Container(
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      FilledDropdownMenu(
-                        hintText: 'Category',
-                        menuHeight: 100,
-                        menuBackgroundColor: Color(0xFF8F6DCB),
-                        buttonHeight: 40,
-                        buttonBackgroundColor:
-                            Color.fromARGB(255, 158, 121, 221),
-                        menuWidth: 100,
+                      Expanded(
+                        child: FilledDropdownMenu(
+                          list: const [
+                            "Stationary",
+                            "Hardware",
+                            "Medical",
+                            "Sparepart",
+                            "Retail",
+                            "Whole sale",
+                            "Skilled Service"
+                          ],
+                          hintText: 'Category',
+                          menuHeight: 100,
+                          menuBackgroundColor: Color(0xFF8F6DCB),
+                          buttonHeight: 40,
+                          buttonBackgroundColor:
+                              const Color.fromARGB(255, 158, 121, 221),
+                          menuWidth: 100,
+                          onValueChanged: (String? value) {
+                            serviceCategory = value;
+                            print(serviceCategory);
+                          },
+                        ),
                       ),
-                      FilledDropdownMenu(
-                        hintText: 'Category',
-                        menuHeight: 100,
-                        menuBackgroundColor: Color(0xFF8F6DCB),
-                        buttonHeight: 40,
-                        buttonBackgroundColor:
-                            Color.fromARGB(255, 158, 121, 221),
-                        menuWidth: 100,
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: FilledDropdownMenu(
+                          list: const ["Sihina Bookshop", "Iresh Pharmacy"],
+                          hintText: 'Name',
+                          menuHeight: 100,
+                          menuBackgroundColor: const Color(0xFF8F6DCB),
+                          buttonHeight: 40,
+                          buttonBackgroundColor:
+                              const Color.fromARGB(255, 158, 121, 221),
+                          menuWidth: 100,
+                          onValueChanged: (String? value) {
+                            serviceCenterName = value;
+                            print(value);
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -140,45 +169,57 @@ class _ReviewScreenState extends State<ReviewScreen> {
                               maxLines: null,
                             ),
                             const SizedBox(height: 40),
-                            const Column(
+                            Column(
                               children: [
-                                Text(
+                                const Text(
                                   "Customer Service",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xFF7E57C2)),
                                 ),
-                                SizedBox(height: 10),
-                                RatingBuilder()
+                                const SizedBox(height: 10),
+                                RatingBuilder(
+                                  onRatingChanged: (rating) {
+                                    customerService = rating;
+                                  },
+                                ),
                               ],
                             ),
                             const SizedBox(height: 10),
-                            const Column(
+                            Column(
                               children: [
-                                Text(
+                                const Text(
                                   "Pricing",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xFF7E57C2)),
                                 ),
-                                SizedBox(height: 10),
-                                RatingBuilder()
+                                const SizedBox(height: 10),
+                                RatingBuilder(
+                                  onRatingChanged: (rating) {
+                                    pricing = rating;
+                                  },
+                                )
                               ],
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Column(
                               children: [
-                                Text(
+                                const Text(
                                   "Product Quality",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xFF7E57C2)),
                                 ),
-                                SizedBox(height: 10),
-                                RatingBuilder()
+                                const SizedBox(height: 10),
+                                RatingBuilder(
+                                  onRatingChanged: (rating) {
+                                    productQuality = rating;
+                                  },
+                                ),
                               ],
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                           ],
                         ),
                       ),
@@ -188,7 +229,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       SizedBox(
                         width: double.infinity,
                         height: 50,
-                        child: CustomButton(text: "Save", onPressed: () {}),
+                        child: CustomButton(
+                            text: "Save",
+                            onPressed: () {
+                              storeReview();
+                            }),
                       )
                     ],
                   ),
@@ -199,5 +244,36 @@ class _ReviewScreenState extends State<ReviewScreen> {
         ),
       ]),
     );
+  }
+
+  void storeReview() async {
+    final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+
+    ReviewModel reviewModel = ReviewModel(
+      homeTown: '',
+      category: serviceCategory,
+      center: serviceCenterName,
+      description: descriptionController.text,
+      custService: customerService,
+      pricing: pricing,
+      pQuality: productQuality,
+      uid: ap.uid,
+    );
+
+    try {
+      await _firebaseFirestore
+          .collection("reviews")
+          .doc(serviceCenterName)
+          .set(reviewModel.toMap())
+          .then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+        );
+      });
+    } on Exception catch (_) {}
   }
 }
