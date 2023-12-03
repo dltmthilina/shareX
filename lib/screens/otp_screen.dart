@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:shareex/provider/auth_provider.dart';
+import 'package:shareex/screens/home_screen.dart';
 import 'package:shareex/screens/user_info_screen.dart';
 import 'package:shareex/utils/utils.dart';
 import 'package:shareex/widgets/custom_button.dart';
@@ -144,7 +145,21 @@ class _OtpScreenState extends State<OtpScreen> {
         onSuccess: () {
           ap.checkExistingUser().then((value) => {
                 if (value == true)
-                  {}
+                  {
+                    ap.getDataFromFirestore().then(
+                          (value) => ap.saveUserDataToSP().then(
+                                (value) => ap.setSignIn().then(
+                                      (value) => Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const HomeScreen(),
+                                          ),
+                                          (route) => false),
+                                    ),
+                              ),
+                        ),
+                  }
                 else
                   {
                     Navigator.pushAndRemoveUntil(
