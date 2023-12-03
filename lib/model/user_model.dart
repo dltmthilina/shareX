@@ -25,7 +25,7 @@ class UserModel {
         createdAt: map['createdAt'] ?? '',
         phoneNUmber: map['phoneNUmber'] ?? '',
         uid: map['uid'] ?? '',
-        role: "user");
+        role: map['role']);
   }
 
   Map<String, dynamic> toMap() {
@@ -33,8 +33,9 @@ class UserModel {
       "name": name,
       "homeTown": homeTown,
       "profilePic": profilePic,
-      "phoneNumber": phoneNUmber,
+      "phoneNUmber": phoneNUmber,
       "createdAt": createdAt,
+      "uid": uid,
       "role": role,
     };
   }
