@@ -4,6 +4,7 @@ import 'package:shareex/provider/auth_provider.dart';
 import 'package:shareex/screens/review_screen.dart';
 import 'package:shareex/utils/utils.dart';
 import 'package:shareex/widgets/custom_button.dart';
+import 'package:shareex/widgets/review_builder.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -63,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -101,7 +101,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => ReviewScreen(),
                           ),
                         );
-                      })
+                      }),
+                  const SizedBox(height: 30),
+                  SingleChildScrollView(
+                    child: Row(
+                      children: [
+                        ReviewBuilder(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             )),
