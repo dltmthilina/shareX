@@ -1,36 +1,42 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
-
+// ignore: must_be_immutable
 class FilledDropdownMenu extends StatefulWidget {
+  List<String> list;
   final String hintText;
   final double menuHeight;
   final double menuWidth;
   final double buttonHeight;
   final Color menuBackgroundColor;
   final Color buttonBackgroundColor;
-  const FilledDropdownMenu({
-    super.key,
+  final ValueChanged<String?> onValueChanged;
+
+  FilledDropdownMenu({
+    Key? key,
+    required this.list,
     required this.hintText,
     required this.menuHeight,
+    required this.menuWidth,
     required this.buttonHeight,
     required this.menuBackgroundColor,
     required this.buttonBackgroundColor,
-    required this.menuWidth,
-  });
+    required this.onValueChanged,
+  }) : super(key: key);
 
   @override
   State<FilledDropdownMenu> createState() => _FilledDropdownMenuState();
 }
 
 class _FilledDropdownMenuState extends State<FilledDropdownMenu> {
-  late String dropdownValue;
+  late String? dropdownValue;
+  late List<String> _list;
 
   @override
   void initState() {
     super.initState();
-    dropdownValue = list.first;
+    dropdownValue = widget.list.first;
   }
 
   @override
@@ -43,13 +49,13 @@ class _FilledDropdownMenuState extends State<FilledDropdownMenu> {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: DropdownButtonFormField(
-        decoration: InputDecoration(contentPadding: EdgeInsets.all(6)),
+        decoration: const InputDecoration(contentPadding: EdgeInsets.all(6)),
         menuMaxHeight: widget.menuHeight,
         value: dropdownValue,
-        hint: Text("Category"),
-        style: TextStyle(color: Colors.white),
+        hint: Text(widget.hintText),
+        style: const TextStyle(color: Colors.white),
         dropdownColor: widget.menuBackgroundColor,
-        items: list.map<DropdownMenuItem<String>>((String value) {
+        items: widget.list.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value),
@@ -57,8 +63,9 @@ class _FilledDropdownMenuState extends State<FilledDropdownMenu> {
         }).toList(),
         onChanged: (String? newValue) {
           setState(() {
-            dropdownValue = newValue!;
+            dropdownValue = newValue;
           });
+          widget.onValueChanged(newValue);
         },
       ),
     );
